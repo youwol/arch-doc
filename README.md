@@ -12,6 +12,14 @@ This version of **Arch** for node.js allows coputation for large models and para
 
 <center><img src="media://arche.jpg" alt="drawing" width="500"/></center>
 
+## How to run
+Just install [node](https://nodejs.org/en/) on your computer, write a script involving **Arch**, and run the following command line:
+```sh
+node script.js
+```
+(see example 1 and 2 from the doc)
+
+<br><br>
 ## Documentation
 Have a look [online](https://youwol.github.io/arch-node-doc/dist/docs/index.html).
 
