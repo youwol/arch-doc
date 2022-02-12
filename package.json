@@ -1,0 +1,29 @@
+{
+  "name": "@youwol/arch-node-doc",
+  "version": "0.0.0-next",
+  "description": "",
+  "author": "fmaerten@youwol.com",
+  "keywords": [],
+  "main": "dist/@youwol/arch-node-doc.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "doc": "typedoc src/ --excludePrivate --disableSources -name 'Arch js library for node' --media ./images --out dist/docs --includeVersion --hideGenerator"
+  },
+  "devDependencies": {
+    "ts-jest": "26.5.4",
+    "ts-loader": "8.1.0",
+    "tslib": "2.2.0",
+    "typedoc": "^0.22.11",
+    "typescript": "^4.5.5",
+    "webpack": "5.28.0",
+    "webpack-cli": "4.6.0"
+  },
+  "youwol": {
+    "pipeline": {
+      "name": "yw_pipeline_webpack_ts",
+      "version": "0.0.0"
+    },
+    "cdnDependencies": {}
+  },
+  "dependencies": {}
+}
