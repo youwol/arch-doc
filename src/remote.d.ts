@@ -30,6 +30,8 @@ export class UserRemote {
      * ```javascript
      * [xx, xy, xz, yy, yz, zz]
      * ```
+     * 
+     * Example for defining an Andersonian remote stress
      * @example
      * ```javascript
      * // Create a remote stress
