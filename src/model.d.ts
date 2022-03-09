@@ -1,5 +1,5 @@
-import { Material } from './materials'
-import { Surface } from './discontinuities'
+// import { Material } from './materials'
+import { Surface } from './surface'
 import { UserRemote } from './remote'
 
 //export namespace model {

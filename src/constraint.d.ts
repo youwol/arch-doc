@@ -103,19 +103,19 @@ export class UserTic implements Constraint {
  */
 export class Coulomb implements Constraint {
     constructor()
-    constructor(friction: number|string|Vectord, cohesion: number|string|Vectord)
+    constructor(friction: number | Vectord, cohesion: number | Vectord)
 
     /**
      * @brief The static sliding friction coefficient
      * @default 0
      */
-    public friction: number | string | Vectord
+    setFriction(f: number | Vectord)
     
     /**
      * @brief The cohesion
      * @default 0
      */
-    public cohesion: number | string | Vectord
+    setCohesion(v: number | Vectord)
 
     /**
      * If you want to test the linearization problem, as in Kaven et al., by means of a simpler

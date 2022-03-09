@@ -18,8 +18,8 @@ import { Constraint } from './constraint'
  */
 export class Surface {
 
-    public readonly nbTriangles: number
-    public readonly nbVertices : number
+    nbTriangles(): number {return}
+    nbVertices() : number {return}
 
     /**
      * @brief Create a Surface discontinuity given an array representing the
@@ -55,13 +55,13 @@ export class Surface {
      * })
      * ```
      */
-    constructor(position: FlatVectors, index: FlatVectors)
+    constructor(position: FlatVectors, index: FlatVectors) {}
 
     /**
      * Change the geometry of the discontinuities
      * @param position The new position of the vertices making the discontinuities
      */
-    //changeCoordinates(position: FlatVectors)
+    changeCoordinates(position: FlatVectors) {}
 
     /**
      * @brief Set the boundary type and value for each axis of the triangles making
@@ -105,7 +105,7 @@ export class Surface {
      * surface.setBC("normal", "free"  , (x,y,z) => 1e3 + rho*g*z)
      * ```
      */
-    setBC(axis: number | string, type: string, value: number|Vectord|Function): void
+    setBC(axis: number | string, type: string, value: number|Vectord|Function): void {}
 
     /**
      * @brief Convenient method to set the boundary values directly using a [[FlatVectors]]. As we
@@ -114,7 +114,7 @@ export class Surface {
      * all axis of all the triangles will be set to this number.
      * @param value
      */
-    //setBCValues(value: number|Array<number>): void
+    setBCValues(value: number|Array<number>): void {}
 
     /**
      * Set the current displacement using a flar array [[Vectord]]
@@ -148,42 +148,40 @@ export class Surface {
      * for (let i=0; i<displ.length/3; i++) {
      *     console.log(displ[3*i], displ[3*i+1], displ[3*i+2])
      * }
-     * 
-     * // Iterating third way: Using an iterator for FlatVectors
-     * const h = new arch.VectorIt(displ)
-     * h.forEach( u => console.log(u[0], u[1], u[2]) )
      * ```
      */
-    displ(local: boolean, atTriangles: boolean): FlatVectors
+    displ(local: boolean, atTriangles: boolean): FlatVectors {return }
 
-    setDispl(displ: FlatVectors)
+    // setDispl(displ: FlatVectors) { }
 
     /**
      * Reset displacement to zero
      */
-    resetDispl()
+    resetDispl() { }
 
     /**
      * @brief Get the computed displacement discontinuity on the positive side of the triangles.
      * If you do the substraction of [[displPlus]] and [[displMinus]], you should retrieve [[displ]]
-     * @param {boolean} local Local or global coordinate system 
+     * @param {boolean} local Local or global coordinate system
      * @param {boolean} atTriangles Compute at triangle center, at vertices otherwise
+     * @param {number} delta A small value (epsilon)
      * @returns {FlatVectors} A flat vector
      * @see [[displMinus]]
      * @see [[Solution.burgersPlus]]
      */
-    //displPlus(local: boolean, atTriangles: boolean): FlatVectors
+    displPlus(local: boolean=true, atTriangles: boolean=true, delta: number=1e-7): FlatVectors {return }
 
     /**
      * @brief Get the computed displacement discontinuity on the negative side of the triangles.
      * If you do the substraction of [[displPlus]] and [[displMinus]], you should retrieve [[displ]]
-     * @param {boolean} local Local or global coordinate system 
+     * @param {boolean} local Local or global coordinate system.
      * @param {boolean} atTriangles Compute at triangle center, at vertices otherwise
+     * @param {number} delta A small value (epsilon)
      * @returns {FlatVectors} A flat vector
      * @see [[displPlus]]
      * @see [[Solution.burgersMinus]]
      */
-    //displMinus(local: boolean, atTriangles: boolean): FlatVectors
+    displMinus(local: boolean=true, atTriangles: boolean=true, delta: number=1e-7): FlatVectors {return }
 
     /**
      * Get the slip vectors as a flat array at vertices (interpolate)
@@ -210,13 +208,13 @@ export class Surface {
      * Set the slip vectors defined at vertices (interpolate)
      * @param burgers 
      */
-    //setDisplFromVertices(burgers: number[]): void
+    setDisplFromVertices(burgers: number[]): void {}
 
     /**
      * Set the slip vectors defined at triangles (no interpolation)
      * @param burgers 
      */
-    //setDisplFromTriangles(burgers: number[]): void
+    setDisplFromTriangles(burgers: number[]): void {}
 
     /**
      * @brief Add a pre-defined or a user-defined constraint to this surface
@@ -224,7 +222,7 @@ export class Surface {
      * @default None There's no constraint
      * @see [[Constraint]]
      */
-    //addConstraint(c: Constraint): void
+    addConstraint(c: Constraint): void {return }
 
     /**
      * @brief Get the triangle's normal at index i
@@ -235,7 +233,7 @@ export class Surface {
      * console.log(`Normal of triangle index 3 is ${n}`)
      * ```
      */    
-    //normal(i: number): Vector
+    // normal(i: number): Vector {return }
 
     /**
      * @brief Get the triangle's center at index i
@@ -247,5 +245,100 @@ export class Surface {
      * }
      * ```
      */    
-    //center(i: number): Vector
+    // center(i: number): Vector {return }
+}
+
+
+/**
+ * @brief Allows to change the convention of the computed displcement discontinuity (also known
+ * as Burger vectors).
+ * By default, the convention is as described by Okada. For the user, it is possible to use another
+ * convention such as the Poly3D convention by mean of this class.
+ * <br><br>
+ * In order to do that, you will have to write the following code:
+     * ```javascript
+     * // Switch from Okada to Poly3D convention
+     * //
+     * // We recall that the Okada convention (the default one)
+     * // is as follow:
+     * // filter.setAxisOrder (['normal', 'strike', 'dip'])
+     * // filter.setAxisRevert([ false  ,  false  ,  false])
+     * 
+     * const filter = new arch.BurgerFilter()
+     * 
+     * //                     x       y         z
+     * filter.setAxisOrder (['dip', 'strike', 'normal'])
+     * filter.setAxisRevert([ true,  false  ,  false  ])
+     * 
+     * const burgers = filter.apply( surface.displ() )
+     * ```
+ * Then, your `burgers` variable will be in Poly3D convention. 
+ * 
+ * <center><img style="width:60%; height:60%;" src="media://convention.jpg"></center>
+ * 
+ * <center><blockquote><i>
+ * The right image shows the default convention used in Arch (Okada) for which the z-axis is
+ * along the dip direction but reverted compared to Poly3D convention (left image). The x-axis
+ * corresponds to the normal of the triangular element, whereas for Poly3D it is the dip direction.
+ * </i></blockquote></center>
+ */
+ export class BurgerFilter {
+    /**
+     * @brief The order of the axis. An array of 3 strings which can be either `dip`,
+     * `strike` or `normal`. Typically, this property is used to order the components
+     * of the displacement when calling [[Surface.displ]], [[Surface.displPlus]] or [[Surface.displMinus]]
+     * (or equivalently [[Solution.burgers]], [[Solution.burgersPlus]] or [[Solution.burgersMinus]]).
+     * @default ['normal','strike','dip']
+     * ```javascript
+     * // This correspond to the Okada convention which is the default one
+     * // Therefore, the following filter does nothing
+     * const filter = new arch.BurgerFilter()
+     * filter.setAxisOrder (['dip', 'strike', 'normal'])
+     * filter.setAxisRevert([ true,  false  ,  false  ])
+     * const burgers = filter.apply( surface.displ() )
+     * ```
+     * @see [[axisRevert]]
+     */
+    setAxisOrder( order: [string, string, string]) {}
+
+    /**
+     * @brief Revert of the displacement vectors axis.
+     * @default [false,false,false]
+     * @see [[axisOrder]]
+     */
+    setAxisRevert(revert: [boolean, boolean, boolean]) {}
+
+    /**
+     * @brief Apply the filter to a given burger list (provided as a flat array)
+     * @param burgers The provided Burger vectors from [[Surface.displ]],
+     * [[Surface.displPlus]] or [[Surface.displMinus]] (or equivalently [[Solution.burgers]],
+     * [[Solution.burgersPlus]] or [[Solution.burgersMinus]]).
+     * * @example
+     * ```javascript
+     * // Switch to the Poly3D convention
+     * const filter = new arch.BurgerFilter()
+     * filter.setAxisOrder (['dip', 'strike', 'normal'])
+     * filter.setAxisRevert([ true,  false  ,  false  ])
+     * const displ = filter.apply( surface.displPlus() )
+     * ```
+     */
+    apply(burgers: Vectord): Vectord {return}
+
+    /**
+     * @brief Convenient method to switch to Okada convention (default one). It corresponds to
+     * ```javascript
+     * axisOrder  = ['normal', 'strike', 'dip']
+     * axisRevert = [false   , false   , false]
+     * ```
+     */
+    setupOkada(): void {}
+
+    /**
+     * @brief Convenient method to switch to Poly3D convention. It corresponds to
+     * ```javascript
+     * axisOrder  = ['dip', 'strike', 'normal']
+     * axisRevert = [true , false   , false   ]
+     * ```
+     */
+    setupPoly3D(): void {}
 }

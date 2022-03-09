@@ -1,13 +1,40 @@
 import { Tensor, Vector } from './types'
 
+/**
+ * Base class for the remotes (user or pre-defined)
+ * 
+ * @category Remotes
+ */
+export interface Remote {
+    /**
+     * @brief Evaluate the remote at pos(x,y,z)
+     * @param pos The position in 3D
+     * @returns {Tensor} The remote at pos. The returned array is in the form
+     * `[xx, xy, xz, yy, yz, zz]`
+     */
+    valueAt(pos: Vector): Tensor
 
+    /**
+     * @brief Evaluate the traction at pos(x,y,z) with normal n(x,y,z)
+     * @param pos The position in 3D (e.g., center of a triangle)
+     * @param normal The normal at point pos
+     * @returns {Vector} The traction vector in the form `[x, y, z]`
+     */
+    tractionAt(pos: Vector, normal: Vector): Vector
+}
+
+/**
+ * The signature of the function for the [[UserRemote]]
+ * @category Remotes
+ */
+ export type RemoteFunction = (x: number, y: number, z: number) => Tensor
 
 /**
  * A user-defined remote using an arrow function
  * 
  * @category Remotes
  */
-export class UserRemote {
+export class UserRemote implements Remote {
     /**
      * Construct a User remote without any arrow function
      */
@@ -52,11 +79,10 @@ export class UserRemote {
      *   // Order is [xx, xy, xz, yy, yz, zz]
      *   return [cos2*Sh + sin2*SH, cos*sin*(Sh-SH), 0, sin2*Sh + cos2*SH, 0, Sv]
      * })
-     * remote.stress = true // we never know :-)
      * 
      * model.run()
      * ...
-     * r.func = (x, y, z) => [1, 0, 0, 0, 0, -1]
+     * r.setFunction( (x, y, z) => [1, 0, 0, 0, 0, -1] )
      * model.run()
      * ...
      * ```
@@ -65,12 +91,12 @@ export class UserRemote {
     setFunction(cb: Function )
 
     /**
-     * @brief Evaluate the remote at (x,y,z)
+     * @brief Evaluate the remote at pos(x,y,z)
      * @param pos The position in 3D
      * @returns {Tensor} The remote at pos. The returned array is in the form
      * `[xx, xy, xz, yy, yz, zz]`
      */
-    evaluate(x: number, y: number, z: number): Tensor
+    valueAt(pos: Vector): Tensor
 
     /**
      * @brief Evaluate the traction at pos(x,y,z) with normal n(x,y,z)
@@ -78,7 +104,7 @@ export class UserRemote {
      * @param normal The normal at point pos
      * @returns {Vector} The traction vector in the form `[x, y, z]`
      */
-    //tractionAt(pos: Vector, normal: Vector): Vector
+    tractionAt(pos: Vector, normal: Vector): Vector
 
     /**
      * @brief If stress = true (default value), set the remote as a remote stress.
@@ -87,4 +113,152 @@ export class UserRemote {
      * @note The strain is not yet implemented
      */
     //stress: boolean
+}
+
+/**
+ * An Andersonian remote stress is a particular remote stress where one principal axis is vertical.
+ * Depending on which of the principal axis is vertical (maximum, minimum, intermediate), we have a different
+ * Andersoninan stress regimes.
+ * 
+ * All values are given in engineer convention, meaning that compression is negatif.
+ * 
+ * If the vertical axis corresponds to
+ * - the maximum principal stress: the regime is **normal**
+ * - the intermediate principal stress: the regime is **strike-slip**
+ * - the minimum principal stress: the regime is **reverse**
+ * 
+ * <center><img style="width:70%; height:70%;" src="media://regimes-anderson.png"></center>
+ * <center><blockquote><i>
+ * Anderson's faulting theory and stress regimes: a) strike-slip fault movement, when SH > SV > Sh; b) reverse or thrust fault movement, when SH > Sh > SV; and c) normal fault movement, when SV > SH > Sh.
+ * </i></blockquote></center>
+ * 
+ * @example
+ * ```javascript
+ * const rho   = 2200 // Density of the rock
+ * const Rh    = 0.1  // Normalized Sh according to Sv
+ * const RH    = 0.6  // Normalized SH according to Sv
+ * const g     = 9.81
+ * 
+ * const r = new arch.AndersoninanRemote()
+ * r.setSh( (x,y,z) => Rh*rho*g*z )
+ * r.setSH( (x,y,z) => RH*rho*g*z )
+ * r.setSv( (x,y,z) => rho*g*z )
+ * r.setTheta(35) // in degrees
+ *
+ * console.log( r.valueAt([0, 0, -1000]) )
+ *
+ * model.addRemote(r)
+ * ```
+ * 
+ * @category Remotes
+ */
+ export class AndersonianRemote implements Remote {
+    /**
+     * @brief The magnitude of the minimum horizontal stress (Sigma h) value which can be
+     * given by a number, a string or a callback.
+     * @default 0
+     */
+    setSh(cb: RemoteFunction)
+    
+    /**
+     * @brief The magnitude of the maximum horizontal stress (Sigma H) value which can be
+     * given by a number, a string or a callback.
+     * @default 0
+     */
+     setSH(cb: Function)
+    
+    /**
+     * @brief The magnitude of the vertical stress (Sigma v) value which can be given by
+     * a number, a string or a callback.
+     * @default 0
+     */
+     setSv(cb: Function)
+
+    /**
+     * @brief The orientation in degrees of the maximum horizontal stress according to the North
+     * (global y-axis) and clock-wise.
+     * @default 0
+     */
+     setSh(cb: number)
+
+    /**
+     * @brief Get the stress ratio in [0, 1], which is (S2-S3)/(S1-S3) with S1 the maximum principal
+     * stress (compression is positive), S2 the intermediate and S3 the minimum principal
+     * stress. In addition, you have to call [[regime]] to know the the stress regime as there's
+     * an ambiguity to use only [[R]] to characterize an Andersoninan stress.
+     * @see [[Rb]]
+     */
+    R(): number
+
+    /**
+     * @brief Another representation of the stress ratio and stress regime together using only one
+     * parameter in [0, 3]. It is essentially the same as [[R]] except that
+     * it includes both the stress ratio and the stress regime
+     * - For Rb in [0, 1], we have a `normal` regime.
+     * - For Rb in [1, 2], we have a `strike-slip` regime.
+     * - For Rb in [2, 3], we have a `reverse` regime.
+     * 
+     * This stress ratio is define in
+     * 
+     * - [Maerten, F., Madden, E. H., Pollard, D. D., & Maerten, L. (2016). Incorporating fault
+     * mechanics into inversions of aftershock data for the regional remote stress, with
+     * application to the 1992 Landers, California earthquake. Tectonophysics, 674, 52-64.](https://www.sciencedirect.com/science/article/abs/pii/S0040195116000731), Eq. 7
+     * - [Maerten, L., Maerten, F., Lejri, M., & Gillespie, P. (2016). Geomechanical paleostress
+     * inversion using fracture data. Journal of structural Geology, 89, 197-213.](https://www.sciencedirect.com/science/article/abs/pii/S0191814116300839), Eq. 3
+     * - [Lejri, M., Maerten, F., Maerten, L., & Soliva, R. (2017). Accuracy evaluation of
+     * both Wallace-Bott and BEM-based paleostress inversion methods. Tectonophysics, 694, 130-145.](https://www.sciencedirect.com/science/article/abs/pii/S0040195116305935), Eq. 2
+     * @see [[R]]
+     */
+    Rb(): number
+
+    /**
+     * @brief Another representation of the stress ratio and stress regime together using only one
+     * parameter which is an angle between -90° and +90°. This parameter is usually called **alpha-shape**.
+     * An explanation will be given soon to
+     * justify this representation.
+     * 
+     * - for alpha in [-90° ,  0°], we have a `normal` regime
+     * - for alpha in [  0° , 45°], we have a `strike-slip` regime
+     * - for alpha in [45°  , 90°], we have a `reverse` regime
+     * 
+     * <center><img style="width:50%; height:50%;" src="media://alpha_half_disc.png"></center>
+     * <center><blockquote><i>
+     * Representation of the alpha-shape as an angle
+     * </i></blockquote></center>
+     * 
+     * <center><img style="width:50%; height:50%;" src="media://alpha-principal_stresses.png"></center>
+     * <center><blockquote><i>
+     * Relations between alpha-shape and the three principale stresses
+     * </i></blockquote></center>
+     */
+    alpha(): number
+
+    /**
+     * @brief Get the stress regime. Can be either `normal`, `strike-slip` or `reverse`
+     */
+    regime(): string
+
+    /**
+     * @brief Evaluate the remote at pos(x,y,z)
+     * @param pos The position in 3D
+     * @returns {Tensor} The remote at pos. The returned array is in the form
+     * `[xx, xy, xz, yy, yz, zz]`
+     */
+    valueAt(pos: Vector): Tensor
+
+    /**
+     * @brief Evaluate the traction at pos(x,y,z) with normal n(x,y,z)
+     * @param pos The position in 3D (e.g., center of a triangle)
+     * @param normal The normal at point pos
+     * @returns {Vector} The traction vector in the form `[x, y, z]`
+     */
+    tractionAt(pos: Vector, normal: Vector): Vector
+
+    /**
+     * @brief If stress = true (default value), set the remote as a remote stress.
+     * Otherwise the remote is a remote strain.
+     * @default true
+     * @note The strain is not yet implemented
+     */
+    // stress: boolean
 }

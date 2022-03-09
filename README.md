@@ -1,6 +1,5 @@
 # <center>Arch.node</center>
 
-
 Our goal is to merge `arch-doc` and `arch-node-doc` into one common API.
 <br>
 <br>
@@ -8,9 +7,9 @@ Our goal is to merge `arch-doc` and `arch-node-doc` into one common API.
 
 **Arch.node** is a [YouWol](https://youwol.com) Javascript package created for [node.js](https://nodejs.org/en/) in order to run **Arch** in C++ (the successor of [**Poly3D**](https://en.wikipedia.org/wiki/David_D._Pollard) and [**iBem3D**](https://www.sciencedirect.com/science/article/pii/S0098300414001496)) in a console using `node.js`.
 
-This version of **Arch** for node.js allows coputation for large models and parallelization of the solver and the post process.
+This version of **Arch** for node.js allows computation for large models and parallelization of the solver and the post process.
 
-<center><img src="images/arche.jpg" alt="drawing" width="500"/></center>
+<center><img src="media://arche.jpg" alt="drawing" width="500"/></center>
 
 ## How to run
 Just install [node](https://nodejs.org/en/) on your computer, write a script involving **Arch**, and run the following command line:

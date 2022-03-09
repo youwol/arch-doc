@@ -1,5 +1,5 @@
 import { Vectord } from './types'
-import { Surface } from './discontinuities'
+import { Surface } from './surface'
 
 /*
  * Allow to interpolate an attribute defined for a [[Surface]] from vertices to triangles,
