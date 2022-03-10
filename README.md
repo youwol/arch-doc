@@ -10,7 +10,7 @@ This is the official documentation of **Arch** for JavaScript and TypeScript.
 
 
 ## Documentation
-See the [online](https://youwol.github.io/arch-node-doc/dist/docs/index.html) generated documentation.
+See the [online](https://youwol.github.io/arch-doc/dist/docs/index.html) generated documentation.
 <br><br>
 
 ## Main references
