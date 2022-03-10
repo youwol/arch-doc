@@ -1,7 +1,7 @@
-# <center>Arch</center>
+# <center>Arch documentation</center>
 
 This is the official documentation of **Arch** for JavaScript and TypeScript.
-**Arch** is a displcamenent discontinuity boundary element code developped by [YouWol](https://youwol.com). It is the successor of [**Poly3D**](https://en.wikipedia.org/wiki/David_D._Pollard) and [**iBem3D**](https://www.sciencedirect.com/science/article/pii/S0098300414001496).
+**Arch** is a displacement discontinuity method (a boundary element method) developped by [YouWol](https://youwol.com). It is the successor of [**Poly3D**](https://en.wikipedia.org/wiki/David_D._Pollard) and [**iBem3D**](https://www.sciencedirect.com/science/article/pii/S0098300414001496).
 <br><br>
 
 <center><img src="media/arche.jpg" alt="drawing" width="500"/></center>
