@@ -9,7 +9,7 @@ Our goal is to merge `arch-doc` and `arch-node-doc` into one common API.
 
 This version of **Arch** for node.js allows computation for large models and parallelization of the solver and the post process.
 
-<center><img src="media://arche.jpg" alt="drawing" width="500"/></center>
+<center><img src="media/arche.jpg" alt="drawing" width="500"/></center>
 
 ## How to run
 Just install [node](https://nodejs.org/en/) on your computer, write a script involving **Arch**, and run the following command line:
