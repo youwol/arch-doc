@@ -22,7 +22,7 @@ This [boundary element](https://en.wikipedia.org/wiki/Boundary_element_method) c
 
 with extensions from
 
-[F. Maerten Stanford and Montpellier PhD's thesis](https://pdfs.semanticscholar.org/1aec/4bf216151024d84a58cbd5344d6ed8092b3f.pdf),
+[F. Maerten Stanford and Montpellier PhD's thesis](https://www.researchgate.net/publication/257925612_Geomechanics_to_solve_geological_structure_issues_forward_inverse_and_restoration_modeling),
 
 a main publication from
 
