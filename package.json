@@ -1,13 +1,13 @@
 {
-  "name": "@youwol/arch-node-doc",
-  "version": "0.0.0-next",
-  "description": "",
+  "name": "@youwol/arch-doc",
+  "version": "0.0.1",
+  "description": "Arch API in JavaScript",
   "author": "fmaerten@youwol.com",
   "keywords": [],
-  "main": "dist/@youwol/arch-node-doc.js",
+  "main": "dist/@youwol/arch-doc.js",
   "types": "src/index.ts",
   "scripts": {
-    "doc": "typedoc src/ --excludePrivate --disableSources -name 'Arch js library for node' --media ./media --out dist/docs --includeVersion --hideGenerator"
+    "doc": "typedoc src/ --excludePrivate --disableSources -name 'Arch js library API' --media ./media --out dist/docs --includeVersion --hideGenerator"
   },
   "devDependencies": {
     "ts-jest": "26.5.4",

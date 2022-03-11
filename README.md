@@ -6,11 +6,10 @@ This is the official documentation of **Arch** for JavaScript and TypeScript.
 
 <center><img src="media/arche.jpg" alt="drawing" width="500"/></center>
 
-**Arch** can be run either from the frontend or backend (using [node](https://nodejs.org/en/)).
-
+**Arch** can be run either from the frontend (web browser) or backend (using [node](https://nodejs.org/en/)).
 
 ## Documentation
-See the [online](https://youwol.github.io/arch-doc/dist/docs/index.html) generated documentation.
+See the [online](https://youwol.github.io/arch-doc/dist/docs/modules.html) generated documentation.
 <br><br>
 
 ## Main references
