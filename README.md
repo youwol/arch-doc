@@ -22,7 +22,7 @@ This [boundary element](https://en.wikipedia.org/wiki/Boundary_element_method) c
 
 with extensions from
 
-[F. Maerten Stanford's thesis](https://pdfs.semanticscholar.org/1aec/4bf216151024d84a58cbd5344d6ed8092b3f.pdf), 
+[F. Maerten Stanford and Montpellier PhD's thesis](https://pdfs.semanticscholar.org/1aec/4bf216151024d84a58cbd5344d6ed8092b3f.pdf),
 
 a main publication from
 
