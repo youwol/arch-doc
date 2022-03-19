@@ -23,5 +23,5 @@
  * ```
  * ---
  */
-export namespace Example_1 {} 
+export namespace Example_simple_1 {} 
 

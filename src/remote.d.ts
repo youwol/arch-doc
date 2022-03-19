@@ -8,6 +8,7 @@ export type UserRemoteCB = (x: number, y: number, z: number) => Tensor
 
 /**
  * The callback as parameter for [[forEachStep]] in [[UserRemoteCB]]
+ * @hidden
  */
 export type IncrementalUserRemoteCB = (stress: Tensor, step: number) => void
 
@@ -270,7 +271,7 @@ export class UserRemote implements Remote {
 
 /**
  * A user-defined incremental remote
- * 
+ * @hidden
  * @category Remotes
  */
  export class IncrementalUserRemote implements Remote {

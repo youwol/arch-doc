@@ -84,4 +84,4 @@
  *      .map (s => console.log(s))
  * ```
  */
- export namespace Example_3 {}
+ export namespace Example_commented {}

@@ -45,4 +45,4 @@
  * ```
  * ---
  */
-export namespace Example_2 {}
+export namespace Example_simple_2 {}

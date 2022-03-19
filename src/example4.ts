@@ -126,4 +126,4 @@
  * fs.writeFile('example.ts', bufferOut, 'utf8', err => {})
  * ```
 */
-export namespace Example_4 {}
+export namespace Example_superposition {}
