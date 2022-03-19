@@ -1,6 +1,17 @@
 import { Tensor, Vector } from './types'
 
 /**
+ * The signature of the stress function for [[UserRemote]] and [[UserRemoteCB]]
+ * @category Remotes
+ */
+export type UserRemoteCB = (x: number, y: number, z: number) => Tensor
+
+/**
+ * The callback as parameter for [[forEachStep]] in [[UserRemoteCB]]
+ */
+export type IncrementalUserRemoteCB = (stress: Tensor, step: number) => void
+
+/**
  * Base class for the remotes (user or pre-defined)
  * 
  * @category Remotes
@@ -24,12 +35,6 @@ export interface Remote {
 }
 
 /**
- * The signature of the function for the [[UserRemote]]
- * @category Remotes
- */
- export type RemoteFunction = (x: number, y: number, z: number) => Tensor
-
-/**
  * A user-defined remote using an arrow function
  * 
  * @category Remotes
@@ -44,7 +49,7 @@ export class UserRemote implements Remote {
      * Construct a User remote with an arrow function
      * @see [[func]]
      */
-    constructor(cb: Function)
+    constructor(cb: UserRemoteCB)
 
     /**
      * Set the arrow function of this user-defined remote.
@@ -86,9 +91,9 @@ export class UserRemote implements Remote {
      * model.run()
      * ...
      * ```
-     * @param {Function} cb The callback
+     * @param {UserRemoteCB} cb The callback
      */
-    setFunction(cb: Function )
+    setFunction(cb: UserRemoteCB )
 
     /**
      * @brief Evaluate the remote at pos(x,y,z)
@@ -158,7 +163,7 @@ export class UserRemote implements Remote {
      * given by a number, a string or a callback.
      * @default 0
      */
-    setSh(cb: RemoteFunction)
+    setSh(cb: Function)
     
     /**
      * @brief The magnitude of the maximum horizontal stress (Sigma H) value which can be
@@ -261,4 +266,112 @@ export class UserRemote implements Remote {
      * @note The strain is not yet implemented
      */
     // stress: boolean
+}
+
+/**
+ * A user-defined incremental remote
+ * 
+ * @category Remotes
+ */
+ export class IncrementalUserRemote implements Remote {
+    /**
+     * Construct a User remote without any arrow function
+     */
+    constructor()
+
+    /**
+     * Construct a User remote with an arrow function and the number of steps
+     * @see [[func]]
+     */
+    constructor(cb: UserRemoteCB, nbSteps: number)
+
+    /**
+     * Set the arrow function of this user-defined remote.
+     * The signature is
+     * ```typescript
+     * cb(x: number, y: number, z: number): Tensor
+     * ```
+     * The returned Array should be of size 6 with the following order for the 
+     * components of the symetric tensor:
+     * ```javascript
+     * [xx, xy, xz, yy, yz, zz]
+     * ```
+     * 
+     * Example for defining an Andersonian remote stress
+     * @example
+     * ```javascript
+     * // Create a remote stress
+     * const theta = 45   // Orientation od SH according to the north, between 0° and 180°
+     * const rho   = 2200 // Density between 0 and 3000
+     * const Rh    = 0.1  // Normalized Sh according to Sv, between 0 and 2 and <= SH
+     * const RH    = 0.6  // Normalized SH according to Sv, between 0 and 2 and >= Sh
+     * 
+     * const remote = new arch.UserRemote( (x,y,z) => {
+     *   const ang  = theta *Math.PI / 180
+     *   const cos  = Math.cos(ang)
+     *   const sin  = Math.sin(ang)
+     *   const cos2 = cos**2
+     *   const sin2 = sin**2
+     *   const Sv   = -rho*9.81*z
+     *   const Sh   = Sv * Rh
+     *   const SH   = Sv * RH
+     *   // Order is [xx, xy, xz, yy, yz, zz]
+     *   return [cos2*Sh + sin2*SH, cos*sin*(Sh-SH), 0, sin2*Sh + cos2*SH, 0, Sv]
+     * })
+     * 
+     * model.run()
+     * ...
+     * r.setFunction( (x, y, z) => [1, 0, 0, 0, 0, -1] )
+     * model.run()
+     * ...
+     * ```
+     * @param {UserRemoteCB} cb The callback
+     */
+    setFunction(cb: UserRemoteCB )
+
+    /**
+     * @brief Evaluate the remote at pos(x,y,z)
+     * @param pos The position in 3D
+     * @returns {Tensor} The remote at pos. The returned array is in the form
+     * `[xx, xy, xz, yy, yz, zz]`
+     */
+    valueAt(pos: Vector): Tensor
+
+    /**
+     * @brief Evaluate the traction at pos(x,y,z) with normal n(x,y,z)
+     * @param pos The position in 3D (e.g., center of a triangle)
+     * @param normal The normal at point pos
+     * @returns {Vector} The traction vector in the form `[x, y, z]`
+     */
+    tractionAt(pos: Vector, normal: Vector): Vector
+
+    /**
+     * @brief Launch the incremental user remote loading. Received parameters for the
+     * callback are (i) the stress evaluated at (0,0,1) and (ii) the step number.
+     * @example
+     * ```js
+     * ...
+     * // Apply a vertical loading in 20 steps
+     * const remote = new arch.IncrementalUserRemote()
+     * remote.setFunction( (x,y,z) => [0,0,0,0,0, -1] )
+     * remote.setNbStep( 20 )
+     * model.addRemote( remote )
+     * 
+     * const solution = new arch.Solution( model )
+     * const solver   = new arch.Forward( model )
+     * 
+     * remote.forEachStep( (stress, i) => {
+     *      console.log('step', i, ', remote-stress:', stress)
+     *      solver.run()
+     *      // Cumulate the deformation
+     *      displ = solution.displ( points ).map( (v,j) => v+displ[j] )
+     * })
+     * ```
+     */
+    forEachStep( cb: IncrementalUserRemoteCB ): void
+
+    /**
+     * Set the number of increments
+     */
+    setNbStep(n: number): void
 }
