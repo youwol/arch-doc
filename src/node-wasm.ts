@@ -1,5 +1,5 @@
 /**
- * ## Difference between Arch compiled with node.js and with WebAssembly.
+ * ## Difference between Arch compiled with node.js and WebAssembly.
  * 
  * In both cases, the API is the same and in the following we assume that
  * a script is launched using `node.js`.
