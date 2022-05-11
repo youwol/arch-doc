@@ -1,4 +1,5 @@
-import { Tensor, Vector } from './types'
+import { Surface } from './surface'
+import { FlatVectors, Tensor, Vector, Vectord } from './types'
 
 /**
  * The signature of the stress function for [[UserRemote]] and [[UserRemoteCB]]
@@ -33,6 +34,13 @@ export interface Remote {
      * @returns {Vector} The traction vector in the form `[x, y, z]`
      */
     tractionAt(pos: Vector, normal: Vector): Vector
+
+    /**
+     * @brief Get the resolved stress at a surface's triangles
+     * @param surface 
+     * @return A flat array of tractions, one for each triangle making the surface
+     */
+    tractionAtSurface(surface: Surface): FlatVectors
 }
 
 /**
@@ -113,6 +121,13 @@ export class UserRemote implements Remote {
     tractionAt(pos: Vector, normal: Vector): Vector
 
     /**
+     * @brief Get the resolved stress at a surface's triangles
+     * @param surface 
+     * @return A flat array of tractions, one for each triangle making the surface
+     */
+     tractionAtSurface(surface: Surface): FlatVectors
+
+    /**
      * @brief If stress = true (default value), set the remote as a remote stress.
      * Otherwise the remote is a remote strain.
      * @default true
@@ -123,8 +138,8 @@ export class UserRemote implements Remote {
 
 /**
  * An Andersonian remote stress is a particular remote stress where one principal axis is vertical.
- * Depending on which of the principal axis is vertical (maximum, minimum, intermediate), we have a different
- * Andersoninan stress regimes.
+ * Depending on the magnitude of vertical stress compared to the other two axis (maximum, minimum, intermediate),
+ * we have a different stress regimes.
  * 
  * All values are given in engineer convention, meaning that compression is negatif.
  * 
@@ -160,32 +175,32 @@ export class UserRemote implements Remote {
  */
  export class AndersonianRemote implements Remote {
     /**
-     * @brief The magnitude of the minimum horizontal stress (Sigma h) value which can be
-     * given by a number, a string or a callback.
+     * @brief The magnitude of the minimum horizontal stress (Sigma h) which can be
+     * given by a number or a callback.
      * @default 0
      */
-    setSh(cb: Function)
+    setSh(cb: Function | number)
     
     /**
-     * @brief The magnitude of the maximum horizontal stress (Sigma H) value which can be
-     * given by a number, a string or a callback.
+     * @brief The magnitude of the maximum horizontal stress (Sigma H) which can be
+     * given by a number or a callback.
      * @default 0
      */
-     setSH(cb: Function)
+     setSH(cb: Function | number)
     
     /**
-     * @brief The magnitude of the vertical stress (Sigma v) value which can be given by
-     * a number, a string or a callback.
+     * @brief The magnitude of the vertical stress (Sigma v) which can be given by
+     * a number or a callback.
      * @default 0
      */
-     setSv(cb: Function)
+     setSv(cb: Function | number)
 
     /**
      * @brief The orientation in degrees of the maximum horizontal stress according to the North
      * (global y-axis) and clock-wise.
      * @default 0
      */
-     setSh(cb: number)
+     setTheta(theta: number)
 
     /**
      * @brief Get the stress ratio in [0, 1], which is (S2-S3)/(S1-S3) with S1 the maximum principal
@@ -259,6 +274,13 @@ export class UserRemote implements Remote {
      * @returns {Vector} The traction vector in the form `[x, y, z]`
      */
     tractionAt(pos: Vector, normal: Vector): Vector
+
+    /**
+     * @brief Get the resolved stress at a surface's triangles
+     * @param surface 
+     * @return A flat array of tractions, one for each triangle making the surface
+     */
+     tractionAtSurface(surface: Surface): FlatVectors
 
     /**
      * @brief If stress = true (default value), set the remote as a remote stress.
@@ -345,6 +367,13 @@ export class UserRemote implements Remote {
      * @returns {Vector} The traction vector in the form `[x, y, z]`
      */
     tractionAt(pos: Vector, normal: Vector): Vector
+
+    /**
+     * @brief Get the resolved stress at a surface's triangles
+     * @param surface 
+     * @return A flat array of tractions, one for each triangle making the surface
+     */
+     tractionAtSurface(surface: Surface): FlatVectors
 
     /**
      * @brief Launch the incremental user remote loading. Received parameters for the

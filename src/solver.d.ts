@@ -20,7 +20,7 @@ import { UserRemote } from './remote'
  * @param context The context. 1 is for the matrix building. 2 is for the system solving.
  * @example
  * ```ts
- * const solver = new arch.Forward(model, 'seidel', 1e-9, 200)
+ * const solver = new arch.Forward(model, 'seidel', 1e-9, 2000)
  * solver.onMessage( c => console.log(c) )
  * solver.onProgress( (i, c, context) => {
  *     if (context === 1) {
@@ -83,7 +83,7 @@ export class Forward {
      * Default values are:
      * - solver: `seidel`
      * - tol: 1e-9
-     * - maxIter: 200
+     * - maxIter: 2000
      * - cores: 1
      */
     constructor(model: Model)
@@ -91,7 +91,7 @@ export class Forward {
     /**
      * Default values are:
      * - solver: `seidel`
-     * - maxIter: 200
+     * - maxIter: 2000
      * - cores: 1
      */
     constructor(model: Model, tol: number)
@@ -125,7 +125,7 @@ export class Forward {
      * @param {string} solverName The name of the solver to use for the computation
      * (`seidel`, `jacobi`, `gmres`, `cgns`). Default is `seidel` (if `solverName` is unknown).
      * @param {number} tol The tolerence of the solver (usually 1e-9)
-     * @param {number} maxIter The maximum nulber of iterations (usually 200)
+     * @param {number} maxIter The maximum nulber of iterations (usually around 1000, but depens on the model)
      */
     constructor(model: Model, solverName: string, tol: number, maxIter: number)
 
@@ -159,7 +159,7 @@ export class Forward {
      * and construction, and (ii) the convergence of the solver.
      * @example
      * ```ts
-     * const solver = new arch.Forward(model, 'seidel', 1e-9, 200)
+     * const solver = new arch.Forward(model, 'seidel', 1e-9, 2000)
      * solver.onMessage( c => console.log(c) )
      * solver.onProgress( (i, c, context) => {
      *     if (context === 1) {
@@ -242,10 +242,10 @@ export class Forward {
     setEps(v: number)
 
     /**
-     * @brief Represent the maximum number of iteration of the solver. Default value is set to `200`.
+     * @brief Represent the maximum number of iteration of the solver. Default value is set to `2000`.
      * The solver continue to run until its current tolerence is greater than [[eps]] or
      * the current number of iterations is less than [[maxIter]]
-     * @default 200
+     * @default 2000
      */
     setMaxIter(v: number)
 

@@ -19,7 +19,20 @@ import { Constraint } from './constraint'
 export class Surface {
 
     nbTriangles(): number {return}
+
     nbVertices() : number {return}
+
+    /**
+     * Compute the seismic moment of this surface, i.e., `M0 = μ.S.Δu`, with μ the shear modulus, S the area
+     * of the surface and Δu the mean displacement. The shear modulus is computed form the model Young's modulus
+     * and the Poisson's ratio.
+     */
+    seismicMoment(): number {return}
+
+    /**
+     * @brief Get the normals as a FlatArray
+     */
+    normalsAsAttribute(): FlatVectors {return}
 
     /**
      * @brief Create a Surface discontinuity given an array representing the
@@ -82,8 +95,10 @@ export class Surface {
      * since the displacement is unknown. Similarly, when the boundary condition is `locked`, the
      * provided value is an imposed displacement along the axis.
      * @param {number|Vectord|Function} value The boundary value for the considered axis. It can be either
-     * a number, a callback
-     * or an array of values for which the length shoud be equal to the number of triangles making the [[Surface]].
+     * a number, a callback or an array of values for which the length shoud be equal to the number of
+     * triangles making the [[Surface]]. If, for a given axis, the condition is `traction`, then this initial value
+     * corrsponds to a traction value (i.e., pressure). On the other hand, if the condition id `displacement`, then
+     * this value corresponds to an imposed displacement. 
      * 
      * If the value is a callbak, then the signature is 
      * ```javascript
