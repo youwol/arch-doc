@@ -67,8 +67,7 @@
  * 
  * // Solve the problem
  * const solver   = new arch.Forward(model)
- * solver.select("parallel")
- * solver.setNbCores(10)
+ * solver.select("seidel")
  * solver.setMaxIter(2000)
  * solver.setEps(1e-9)
  * solver.run()

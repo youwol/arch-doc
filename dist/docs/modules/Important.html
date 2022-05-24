@@ -2,6 +2,8 @@
 <ul>
 <li><a href="../classes/Forward.html">Forward</a> is still a work in progress and some available solvers might not work as expected...</li>
 <li>Constraints <strong>only</strong> apply with the solver <code>seidel</code> or <code>jacobi</code> in <a href="../classes/Forward.html">Forward</a></li>
+<li><code>UserDic</code> and <code>UserTic</code> <strong>only</strong> works for <strong>sequential</strong> seidel/jacobi solver, not in parallel since we have to
+implement the <em>threaded callback</em> in nodejs</li>
 <li>In some cases, the <code>seidel</code> and <code>jacobi</code> solvers may diverge. These cases are</li>
 </ul>
 <ol>

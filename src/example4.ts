@@ -35,8 +35,9 @@
  * const remote = new arch.UserRemote() // will be set later on
  * model.addRemote( remote )
  * 
- * const solver = new arch.Forward(model, 'seidel', 1e-8, 200)
- * solver.setAutoReleaseMemory(false)
+ * const solver = new arch.Forward(model, 'parallel', 1e-8, 200)
+ * solver.setNbCores(32)              // e.g., using a AMD Ryzen 9 5950X 16x
+ * solver.setAutoReleaseMemory(false) // Important for speed consideration
  * 
  * // ------------------------------------------------
  * 
@@ -72,7 +73,7 @@
  *         ]
  *     })
  *     // Pressure in the cavity
- *     chamber.setBC( "normal", "free", (x,y,z) => alpha[6]*9.81*Math.abs(z) + alpha[7] )
+ *     chamber.setBC( "normal", "free", (x,y,z) => alpha[6]*Math.abs(z) + alpha[7] )
  * 
  *     solver.run()
  *     const solution = new arch.Solution(model)
