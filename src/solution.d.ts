@@ -85,6 +85,11 @@ export class Solution {
      * @warning The returned array comprises all [[Surface]]. This is why the return type is an array
      * of [[FlatVectors]] (one entry for each [[Surface]]) and **not** a [[FlatVectors]]. The order of
      * the corresponding surface is the same as the addition in the model.
+     * @warning If you want to display iso-contours of a component of the Burger's vectors, you have to
+     * use `local = false` and `atTriangles = false`, as OpenGL uses values at nodes and because
+     * interpolation from triangles to nodes have to be done in the global coordinate systems
+     * (we cannot add vectors from differents coordinate systems, i.e., local coordinate
+     * system of the triangles).
      */
     burgers(local: boolean, atTriangles: boolean): Array<FlatVectors>
 
@@ -97,6 +102,11 @@ export class Solution {
      * @warning The returned array comprises all [[Surface]]. This is why the return type is an array
      * of [[FlatVectors]] (one entry for each [[Surface]]) and **not** a [[FlatVectors]]. The order of
      * the corresponding surface is the same as the addition in the model.
+     * @warning If you want to display iso-contours of a component of the Burger's vectors, you have to
+     * use `local = false` and `atTriangles = false`, as OpenGL uses values at nodes and because
+     * interpolation from triangles to nodes have to be done in the global coordinate systems
+     * (we cannot add vectors from differents coordinate systems, i.e., local coordinate
+     * system of the triangles).
      * @see [[delta]]
      */
     burgersPlus(local: boolean, atTriangles: boolean): Array<FlatVectors>
@@ -110,6 +120,11 @@ export class Solution {
      * @warning The returned array comprises all [[Surface]]. This is why the return type is an array
      * of [[FlatVectors]] (one entry for each [[Surface]]) and **not** a [[FlatVectors]]. The order of
      * the corresponding surface is the same as the addition in the model.
+     * @warning If you want to display iso-contours of a component of the Burger's vectors, you have to
+     * use `local = false` and `atTriangles = false`, as OpenGL uses values at nodes and because
+     * interpolation from triangles to nodes have to be done in the global coordinate systems
+     * (we cannot add vectors from differents coordinate systems, i.e., local coordinate
+     * system of the triangles).
      * @see [[delta]]
      */
     burgersMinus(local: boolean, atTriangles: boolean): Array<FlatVectors>

@@ -12,6 +12,11 @@ provided by <a href="Solution.html#burgers">burgers</a>, <code>b(+)</code> provi
 </dd><dt>warning</dt><dd><p>The returned array comprises all <a href="Surface.html">Surface</a>. This is why the return type is an array
 of <a href="../modules.html#FlatVectors">FlatVectors</a> (one entry for each <a href="Surface.html">Surface</a>) and <strong>not</strong> a <a href="../modules.html#FlatVectors">FlatVectors</a>. The order of
 the corresponding surface is the same as the addition in the model.</p>
+</dd><dt>warning</dt><dd><p>If you want to display iso-contours of a component of the Burger&#39;s vectors, you have to
+use <code>local = false</code> and <code>atTriangles = false</code>, as OpenGL uses values at nodes and because
+interpolation from triangles to nodes have to be done in the global coordinate systems
+(we cannot add vectors from differents coordinate systems, i.e., local coordinate
+system of the triangles).</p>
 </dd></dl></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>local: <span class="tsd-signature-type">boolean</span></h5><div class="tsd-comment tsd-typography"><div class="lead">
 <p>Local or global coordinate system</p>
 </div></div></li><li><h5>atTriangles: <span class="tsd-signature-type">boolean</span></h5><div class="tsd-comment tsd-typography"><div class="lead">
@@ -23,6 +28,11 @@ If you do the substraction of <a href="Solution.html#burgersPlus">burgersPlus</a
 </dd><dt>warning</dt><dd><p>The returned array comprises all <a href="Surface.html">Surface</a>. This is why the return type is an array
 of <a href="../modules.html#FlatVectors">FlatVectors</a> (one entry for each <a href="Surface.html">Surface</a>) and <strong>not</strong> a <a href="../modules.html#FlatVectors">FlatVectors</a>. The order of
 the corresponding surface is the same as the addition in the model.</p>
+</dd><dt>warning</dt><dd><p>If you want to display iso-contours of a component of the Burger&#39;s vectors, you have to
+use <code>local = false</code> and <code>atTriangles = false</code>, as OpenGL uses values at nodes and because
+interpolation from triangles to nodes have to be done in the global coordinate systems
+(we cannot add vectors from differents coordinate systems, i.e., local coordinate
+system of the triangles).</p>
 </dd><dt>see</dt><dd><p>[[delta]]</p>
 </dd></dl></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>local: <span class="tsd-signature-type">boolean</span></h5><div class="tsd-comment tsd-typography"><div class="lead">
 <p>Local or global coordinate system</p>
@@ -34,6 +44,11 @@ If you do the substraction of <a href="Solution.html#burgersPlus">burgersPlus</a
 </dd><dt>warning</dt><dd><p>The returned array comprises all <a href="Surface.html">Surface</a>. This is why the return type is an array
 of <a href="../modules.html#FlatVectors">FlatVectors</a> (one entry for each <a href="Surface.html">Surface</a>) and <strong>not</strong> a <a href="../modules.html#FlatVectors">FlatVectors</a>. The order of
 the corresponding surface is the same as the addition in the model.</p>
+</dd><dt>warning</dt><dd><p>If you want to display iso-contours of a component of the Burger&#39;s vectors, you have to
+use <code>local = false</code> and <code>atTriangles = false</code>, as OpenGL uses values at nodes and because
+interpolation from triangles to nodes have to be done in the global coordinate systems
+(we cannot add vectors from differents coordinate systems, i.e., local coordinate
+system of the triangles).</p>
 </dd><dt>see</dt><dd><p>[[delta]]</p>
 </dd></dl></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>local: <span class="tsd-signature-type">boolean</span></h5><div class="tsd-comment tsd-typography"><div class="lead">
 <p>Local or global coordinate system</p>

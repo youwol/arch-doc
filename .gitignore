@@ -4,3 +4,4 @@ node_modules
 coverage/
 junit.xml
 src/auto_generated.ts
+.DS_Store

@@ -44,8 +44,29 @@ export interface Remote {
 }
 
 /**
- * A user-defined remote using an arrow function
+ * A user-defined remote using an arrow function.
  * 
+ * Example for defining a gradient Andersonian remote stress
+ * @example
+ * ```javascript
+ * const theta = 45   // Orientation od SH according to the north, between 0° and 180°
+ * const rho   = 2200 // Density between 0 and 3000
+ * const Rh    = 0.1  // Normalized Sh according to Sv, between 0 and 2 and <= SH
+ * const RH    = 0.6  // Normalized SH according to Sv, between 0 and 2 and >= Sh
+ * 
+ * const remote = new arch.UserRemote( (x,y,z) => {
+ *   const ang  = theta *Math.PI / 180
+ *   const cos  = Math.cos(ang)
+ *   const sin  = Math.sin(ang)
+ *   const cos2 = cos**2
+ *   const sin2 = sin**2
+ *   const Sv   = rho*9.81*z // z is negatif, so is Sv
+ *   const Sh   = Sv * Rh
+ *   const SH   = Sv * RH
+ *   // Order is [xx, xy, xz, yy, yz, zz]
+ *   return [cos2*Sh + sin2*SH, cos*sin*(SH-Sh), 0, sin2*Sh + cos2*SH, 0, Sv]
+ * })
+ * ```
  * @category Remotes
  */
 export class UserRemote implements Remote {
@@ -75,34 +96,18 @@ export class UserRemote implements Remote {
      * Example for defining an Andersonian remote stress
      * @example
      * ```javascript
-     * // Create a remote stress
-     * const theta = 45   // Orientation od SH according to the north, between 0° and 180°
-     * const rho   = 2200 // Density between 0 and 3000
-     * const Rh    = 0.1  // Normalized Sh according to Sv, between 0 and 2 and <= SH
-     * const RH    = 0.6  // Normalized SH according to Sv, between 0 and 2 and >= Sh
-     * 
-     * const remote = new arch.UserRemote( (x,y,z) => {
-     *   const ang  = theta *Math.PI / 180
-     *   const cos  = Math.cos(ang)
-     *   const sin  = Math.sin(ang)
-     *   const cos2 = cos**2
-     *   const sin2 = sin**2
-     *   const Sv   = -rho*9.81*z
-     *   const Sh   = Sv * Rh
-     *   const SH   = Sv * RH
-     *   // Order is [xx, xy, xz, yy, yz, zz]
-     *   return [cos2*Sh + sin2*SH, cos*sin*(Sh-SH), 0, sin2*Sh + cos2*SH, 0, Sv]
-     * })
+     * const remote = new arch.UserRemote( (x,y,z) => [1, 0, 0, 2, 0, -3] )
+     * model.addRemote(remote)
      * 
      * model.run()
      * ...
-     * r.setFunction( (x, y, z) => [1, 0, 0, 0, 0, -1] )
+     * r.setFunction( (x, y, z) => [0, 0, 0, 0, 0, 1] )
      * model.run()
      * ...
      * ```
      * @param {UserRemoteCB} cb The callback
      */
-    setFunction(cb: UserRemoteCB )
+    setFunction(cb: UserRemoteCB)
 
     /**
      * @brief Evaluate the remote at pos(x,y,z)
@@ -125,7 +130,7 @@ export class UserRemote implements Remote {
      * @param surface 
      * @return A flat array of tractions, one for each triangle making the surface
      */
-     tractionAtSurface(surface: Surface): FlatVectors
+    tractionAtSurface(surface: Surface): FlatVectors
 
     /**
      * @brief If stress = true (default value), set the remote as a remote stress.
@@ -173,34 +178,34 @@ export class UserRemote implements Remote {
  * 
  * @category Remotes
  */
- export class AndersonianRemote implements Remote {
+export class AndersonianRemote implements Remote {
     /**
      * @brief The magnitude of the minimum horizontal stress (Sigma h) which can be
      * given by a number or a callback.
      * @default 0
      */
     setSh(cb: Function | number)
-    
+
     /**
      * @brief The magnitude of the maximum horizontal stress (Sigma H) which can be
      * given by a number or a callback.
      * @default 0
      */
-     setSH(cb: Function | number)
-    
+    setSH(cb: Function | number)
+
     /**
      * @brief The magnitude of the vertical stress (Sigma v) which can be given by
      * a number or a callback.
      * @default 0
      */
-     setSv(cb: Function | number)
+    setSv(cb: Function | number)
 
     /**
      * @brief The orientation in degrees of the maximum horizontal stress according to the North
      * (global y-axis) and clock-wise.
      * @default 0
      */
-     setTheta(theta: number)
+    setTheta(theta: number)
 
     /**
      * @brief Get the stress ratio in [0, 1], which is (S2-S3)/(S1-S3) with S1 the maximum principal
@@ -280,7 +285,7 @@ export class UserRemote implements Remote {
      * @param surface 
      * @return A flat array of tractions, one for each triangle making the surface
      */
-     tractionAtSurface(surface: Surface): FlatVectors
+    tractionAtSurface(surface: Surface): FlatVectors
 
     /**
      * @brief If stress = true (default value), set the remote as a remote stress.
@@ -296,7 +301,7 @@ export class UserRemote implements Remote {
  * @hidden
  * @category Remotes
  */
- export class IncrementalUserRemote implements Remote {
+export class IncrementalUserRemote implements Remote {
     /**
      * Construct a User remote without any arrow function
      */
@@ -350,7 +355,7 @@ export class UserRemote implements Remote {
      * ```
      * @param {UserRemoteCB} cb The callback
      */
-    setFunction(cb: UserRemoteCB )
+    setFunction(cb: UserRemoteCB)
 
     /**
      * @brief Evaluate the remote at pos(x,y,z)
@@ -373,7 +378,7 @@ export class UserRemote implements Remote {
      * @param surface 
      * @return A flat array of tractions, one for each triangle making the surface
      */
-     tractionAtSurface(surface: Surface): FlatVectors
+    tractionAtSurface(surface: Surface): FlatVectors
 
     /**
      * @brief Launch the incremental user remote loading. Received parameters for the
@@ -398,7 +403,7 @@ export class UserRemote implements Remote {
      * })
      * ```
      */
-    forEachStep( cb: IncrementalUserRemoteCB ): void
+    forEachStep(cb: IncrementalUserRemoteCB): void
 
     /**
      * Set the number of increments
