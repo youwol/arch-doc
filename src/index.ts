@@ -15,7 +15,7 @@ export * from './fricInv'
 export * from './solution'
 
 export * from './types'
-export * from './triangleIt'
+export * from './triangle'
 
 export * from './node-wasm'
 export * from './example_setup_env'
