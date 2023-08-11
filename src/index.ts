@@ -11,7 +11,7 @@ export * from './remote'
 
 export * from './solver'
 export * from './slipInv'
-export * from './fricInv'
+// export * from './fricInv'
 export * from './solution'
 
 export * from './types'
