@@ -3,52 +3,24 @@ import { Surface } from "./surface"
 
 /**
  * Allows to access to triangle features.
- * If this class is called with a loop (i.e., using `begin()`, `more()` and `next()`), then for
- * almost all the methods, the argument (triangle index) is discarded and the current triangle
- * id from the loop will be iused:
  * 
+ * Example using the {@link Model}
  * ```ts
  * let area = 0
- * for (it.begin(); it.more(); it.next()) {
- *      area += it.area() // no argument in area()
- * }
+ * model.forEachTriangle( (t) => {
+ *      area += y.area()
+ * })
  * ```
- * 
- * On the opposite, if you do not use a loop, then you will have to pass teh triangle index:
- * 
+ * Example using the {@link Surface}
  * ```ts
- * let area = it.area(0) // get the area of the first triangle
- * area += it.area(1)    // cumulate with the the area of second triangle
+ * let area = 0
+ * surface.forEachTriangle( (t) => {
+ *      area += y.area()
+ * })
  * ```
+ * 
  */
-export class TriangleIt {
-    constructor(surface: Surface)
-
-    /**
-     * Reset the iteration from the beginning
-     */
-    begin(): void
-
-    /**
-     * Check if there's more triangles
-     */
-    more(): boolean
-
-    /**
-     * Jump to the next triangle
-     */
-    next(): void
-
-    /**
-     * Get the current iteration
-     */
-    curId(): number
-
-    /**
-     * Get the number of triangles making the surface
-     */
-    length(): number
-
+export class Triangle {
     /**
      * @brief Set the boundary type and value.
      * 
@@ -72,10 +44,8 @@ export class TriangleIt {
      * @default Strike axis: type = `free` and value = `0`
      * @default Dip axis: type = `free` and value = `0`
      * @example
-     * ```javascript
-     * for (const it = new arch.TriangleIt(surface); it.more(); it.next()) {
-     *      it.setBc("dip", "free", 0)
-     * }
+     * ```js
+     * model.forEachTriangle( t => t.setBc("dip", "free", 0) )
      * ```
      */
     setBc(axis: string, type: string, value: number): void
@@ -85,6 +55,11 @@ export class TriangleIt {
      * @param axis See [[setBc]] for the axis format
      */
     setDispl(axis: string, value: number): void
+
+    /**
+     * Get the degree of freedom, i.e., the number of tractions.
+     */
+    dof(): number
 
     /**
      * Get the center at triangle with id i.
@@ -136,15 +111,13 @@ export class TriangleIt {
      * @example
      * ```js
      * let nbSlipped = 0
-     * for (const it = new arch.TriangleIt(surface); it.more(); it.next()) {
-     *      if (it.hasSlipped()) nbSlipped++
-     * }
+     * model.forEachTriangle( t => t.hasSlipped() ? nbSlipped++ : 0 )
      * console.log('Nb slipped triangles', nbSlipped)
      * ```
      */
     hasSlipped(i: number): boolean
 
-    
+
     hasSlipped(): boolean
 
     /**

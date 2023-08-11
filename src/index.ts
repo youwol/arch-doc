@@ -11,11 +11,11 @@ export * from './remote'
 
 export * from './solver'
 export * from './slipInv'
-export * from './fricInv'
+// export * from './fricInv'
 export * from './solution'
 
 export * from './types'
-export * from './triangleIt'
+export * from './triangle'
 
 export * from './node-wasm'
 export * from './example_setup_env'

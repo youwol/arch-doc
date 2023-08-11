@@ -9,12 +9,15 @@ import { FlatVectors, Model, Vector, Vectorb, Vectord } from "."
  * [Maerten, F., Resor, P., Pollard, D., & Maerten, L. (2005). Inverting for slip on three-dimensional fault surfaces using angular dislocations. Bulletin of the Seismological Society of America, 95(5), 1654-1665.](https://pubs.geoscienceworld.org/ssa/bssa/article-abstract/95/5/1654/103120/Inverting-for-Slip-on-Three-Dimensional-Fault?redirectedFrom=fulltext)
  * ___
  * except that we use an iterative approach to solve for the unknown burger components on fault surfaces.
- * Consequently, the regularization operator (aka, Tikhonov regularization) is also iterative and is based on the
- * Displacement Inequality Constraint (DIC).
+ * Consequently, the regularization operator (aka, Tikhonov regularization) is also simply incorporated into the
+ * iterative process.
+ * The FNNLS (Fast Non Negativity Least Squares) algorithm is simply replaced by the notion of DIC (Displacement Inequality Constraint).
  * 
  * The iterative approach is similar to the **Block Gauss-Seidel**
  * solver ([[Forward]] with '`seidel`' parameter), except that we use a **Block Least-Squares**
  * formulation, with an optimized building process for the underlaying matrices and vectors.
+ * 
+ * @todo Separate the notion of data (gps, insar, ...) from the solver itself.
  * 
  * @example
  * ```javascript

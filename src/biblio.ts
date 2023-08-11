@@ -21,7 +21,7 @@
  
  * - [Maerten, L., Maerten, F., & Lejri, M. (2018). Along fault friction and fluid pressure effects on the spatial distribution of fault-related fractures. Journal of Structural Geology, 108, 198-212.](https://www.sciencedirect.com/science/article/abs/pii/S0191814117302316)
  
- * - Maerten, F., Maerten, L., R. Plateaux & Cornard, P. (2022). Joint inversion of tectonic stress and magma pressures using dyke trajectories. Accepted in Geological Magazine
+ * - [Maerten, F., Maerten, L., R. Plateaux & Cornard, P. (2022). Joint inversion of tectonic stress and magma pressures using dyke trajectories. Geological Magazine](https://www.cambridge.org/core/journals/geological-magazine/article/abs/joint-inversion-of-tectonic-stress-and-magma-pressures-using-dyke-trajectories/8A369D4DFE3825EDF7C0B6EB7DBA7979)
  
  * - [Nikkhoo, M., & Walter, T. R. (2015). Triangular dislocation: an analytical, artefact-free solution. Geophysical Journal International, 201(2), 1119-1141.](https://academic.oup.com/gji/article/201/2/1119/572006)
  

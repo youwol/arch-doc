@@ -34,12 +34,12 @@ import { Vectord } from './types'
  * corresponds to the normal of the triangular element, whereas for Poly3D it is the dip direction.
  * </i></blockquote></center>
  */
- export class BurgerFilter {
+export class BurgerFilter {
     /**
      * @brief The order of the axis. An array of 3 strings which can be either `dip`,
      * `strike` or `normal`. Typically, this property is used to order the components
-     * of the displacement when calling [[Surface.displ]], [[Surface.displPlus]] or [[Surface.displMinus]]
-     * (or equivalently [[Solution.burgers]], [[Solution.burgersPlus]] or [[Solution.burgersMinus]]).
+     * of the displacement when calling {@link Surface.displ}, {@link Surface.displPlus} or {@link Surface.displMinus}
+     * (or equivalently {@link Solution.burgers}, {@link Solution.burgersPlus} or {@link Solution.burgersMinus}).
      * @default ['normal','strike','dip']
      * ```javascript
      * // This correspond to the Okada convention which is the default one
@@ -49,22 +49,22 @@ import { Vectord } from './types'
      * filter.setAxisRevert([ true,  false  ,  false  ])
      * const burgers = filter.apply( surface.displ() )
      * ```
-     * @see [[axisRevert]]
+     * @see {@link axisRevert}
      */
-    setAxisOrder( order: [string, string, string]) {}
+    setAxisOrder(order: [string, string, string]) { }
 
     /**
      * @brief Revert of the displacement vectors axis.
      * @default [false,false,false]
-     * @see [[axisOrder]]
+     * @see {@link axisOrder}
      */
-    setAxisRevert(revert: [boolean, boolean, boolean]) {}
+    setAxisRevert(revert: [boolean, boolean, boolean]) { }
 
     /**
      * @brief Apply the filter to a given burger list (provided as a flat array)
-     * @param burgers The provided Burger vectors from [[Surface.displ]],
-     * [[Surface.displPlus]] or [[Surface.displMinus]] (or equivalently [[Solution.burgers]],
-     * [[Solution.burgersPlus]] or [[Solution.burgersMinus]]).
+     * @param burgers The provided Burger vectors from {@link Surface.displ},
+     * {@link Surface.displPlus} or {@link Surface.displMinus} (or equivalently {@link Solution.burgers},
+     * {@link Solution.burgersPlus} or {@link Solution.burgersMinus}).
      * * @example
      * ```javascript
      * // Switch to the Poly3D convention
@@ -74,7 +74,7 @@ import { Vectord } from './types'
      * const displ = filter.apply( surface.displPlus() )
      * ```
      */
-    apply(burgers: Vectord): Vectord {return}
+    apply(burgers: Vectord): Vectord { return }
 
     /**
      * @brief Convenient method to switch to Okada convention (default one). It corresponds to
@@ -83,7 +83,7 @@ import { Vectord } from './types'
      * axisRevert = [false   , false   , false]
      * ```
      */
-    setupOkada(): void {}
+    setupOkada(): void { }
 
     /**
      * @brief Convenient method to switch to Poly3D convention. It corresponds to
@@ -92,5 +92,5 @@ import { Vectord } from './types'
      * axisRevert = [true , false   , false   ]
      * ```
      */
-    setupPoly3D(): void {}
+    setupPoly3D(): void { }
 }

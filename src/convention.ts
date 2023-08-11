@@ -4,7 +4,7 @@ As opposed to **Poly3D**, we use the [**Okada**](https://pubs.geoscienceworld.or
  
 <center><img style="width:60%; height:60%;" src="media://convention.png"></center> 
 
-As the convention is related to the triangular elements making the discontinuities, and specifically the displacement discontinuity also called **Burger** vector, you can switch from **Okada** to **Poly3D** (or any convention of your choise) by using the [[BurgerFilter]] class. Here is an example of using the filter while gathering the computed burger vectors from a surface discontinuity:
+As the convention is related to the triangular elements making the discontinuities, and specifically the displacement discontinuity also called **Burger** vector, you can switch from **Okada** to **Poly3D** (or any convention of your choise) by using the {@link BurgerFilter} class. Here is an example of using the filter while gathering the computed burger vectors from a surface discontinuity:
 ```javascript
 // Switch to the Poly3D convention
 const filter = new arch.BurgerFilter()
@@ -30,10 +30,10 @@ to be defined **at vertices** and in **local coordinate system**.
 Similarly, when displaying vector field on fault surfaces, this
 displacemment field has to be defined at **vertices** and in **glocal coordinate system**.
 
-This is why the object [[Solution]] provide the method `burgers` with 2 booblean parameters:
+This is why the object {@link Solution} provide the method `burgers` with 2 booblean parameters:
 ```ts
 solution.burgers(local: boolean, atTriangles: boolean)
 ```
 */
 
-export namespace Conventions {}
+export namespace Conventions { }

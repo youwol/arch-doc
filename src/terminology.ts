@@ -13,9 +13,9 @@ const stresses = [1,6,3,5,2,8, 1,6,3,5,2,8, 1,6,3,5,2,8]
 - **Active object**: a triangulated surface that will perturbed the nearby stress
 field due to non-zero displacements on some or all of the triangles maling this object.
 Examples of active objects are faults, salt structures and magma chambers. They are represented
-by the class [[Surface]]
+by the class {@link Surface}
 - **Passive object**: as opposed to an active object, a passive object will not affect the nearby
 stress field. It is mainly used to compute the stress field at its point locations. They are represented
 by observation points (or grids).
 */
-export namespace Terminology {}
+export namespace Terminology { }

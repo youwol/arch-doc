@@ -1,5 +1,6 @@
 import { FlatVectors, Vectord } from './types'
 import { Constraint } from './constraint'
+import { Triangle } from './triangle'
 
 
 /**
@@ -8,31 +9,31 @@ import { Constraint } from './constraint'
  * different type of geological objects such as [faults](https://en.wikipedia.org/wiki/Fault_(geology)), 
  * [diapirs](https://en.wikipedia.org/wiki/Diapir) or [magma chambers](https://en.wikipedia.org/wiki/Magma_chamber).
  * 
- * To access computed values on [[Surface]], see the [[Solution]] class, or use the method [[Surface.displ]]
+ * To access computed values on {@link Surface}, see the {@link Solution} class, or use the method {@link Surface.displ}
  * 
- * A [[Surface]] is part of a **Arch** [[Model]].
+ * A {@link Surface} is part of a **Arch** {@link Model}.
  * 
  * <center><img style="width:60%; height:60%;" src="media://fault.jpg"></center>
  * 
- * If you want to switch from the **Okada** to **Poly3D** convention, you will have to use the [[BurgerFilter]] class.
+ * If you want to switch from the **Okada** to **Poly3D** convention, you will have to use the {@link BurgerFilter} class.
  */
 export class Surface {
 
-    nbTriangles(): number {return}
+    nbTriangles(): number
 
-    nbVertices() : number {return}
+    nbVertices(): number
 
     /**
      * Compute the seismic moment of this surface, i.e., `M0 = μ.S.Δu`, with μ the shear modulus, S the area
      * of the surface and Δu the mean displacement. The shear modulus is computed form the model Young's modulus
      * and the Poisson's ratio.
      */
-    seismicMoment(): number {return}
+    seismicMoment(): number
 
     /**
      * @brief Get the normals as a FlatArray
      */
-    normalsAsAttribute(): FlatVectors {return}
+    normalsAsAttribute(): FlatVectors
 
     /**
      * @brief Create a Surface discontinuity given an array representing the
@@ -68,13 +69,13 @@ export class Surface {
      * })
      * ```
      */
-    constructor(position: FlatVectors, index: FlatVectors) {}
+    constructor(position: FlatVectors, index: FlatVectors)
 
     /**
      * Change the geometry of the discontinuities
      * @param position The new position of the vertices making the discontinuities
      */
-    changeCoordinates(position: FlatVectors) {}
+    changeCoordinates(position: FlatVectors)
 
     /**
      * @brief Set the boundary type and value for each axis of the triangles making
@@ -96,7 +97,7 @@ export class Surface {
      * provided value is an imposed displacement along the axis.
      * @param {number|Vectord|Function} value The boundary value for the considered axis. It can be either
      * a number, a callback or an array of values for which the length shoud be equal to the number of
-     * triangles making the [[Surface]]. If, for a given axis, the condition is `traction`, then this initial value
+     * triangles making the {@link Surface}. If, for a given axis, the condition is `traction`, then this initial value
      * corrsponds to a traction value (i.e., pressure). On the other hand, if the condition id `displacement`, then
      * this value corresponds to an imposed displacement. 
      * 
@@ -120,19 +121,19 @@ export class Surface {
      * surface.setBC("normal", "free"  , (x,y,z) => 1e3 + rho*g*z)
      * ```
      */
-    setBC(axis: number | string, type: string, value: number|Vectord|Function): void {}
+    setBC(axis: number | string, type: string, value: number | Vectord | Function): void
 
     /**
-     * @brief Convenient method to set the boundary values directly using a [[FlatVectors]]. As we
+     * @brief Convenient method to set the boundary values directly using a {@link FlatVectors}. As we
      * set the values for the 3 axis at the same time, it is obvious that the size of the array should
      * be equal to the number of triangles, `t`, times 3: `value.length === 3*t`. If a number is provided,
      * all axis of all the triangles will be set to this number.
      * @param value
      */
-    setBCValues(value: number|Array<number>): void {}
+    setBCValues(value: number | Array<number>): void
 
     /**
-     * Set the current displacement using a flar array [[Vectord]]
+     * Set the current displacement using a flar array {@link Vectord}
      */
     //setDispl(burgers: Vectord): void
 
@@ -148,7 +149,7 @@ export class Surface {
      * otherwise it will be defined (interpolated) at vertices (e.g., if you want to deform the
      * surface according to the displacement field)
      * @returns {FlatVectors} A flat array of displacement vectors
-     * @see [[Solution.burgers]]
+     * @see {@link Solution.burgers}
      * @example
      * ```javascript
      * // Get the displacement field at nodes in global coordinate system
@@ -165,38 +166,38 @@ export class Surface {
      * }
      * ```
      */
-    displ(local: boolean, atTriangles: boolean): FlatVectors {return }
+    displ(local: boolean, atTriangles: boolean): FlatVectors
 
     // setDispl(displ: FlatVectors) { }
 
     /**
      * Reset displacement to zero
      */
-    resetDispl() { }
+    resetDispl()
 
     /**
      * @brief Get the computed displacement discontinuity on the positive side of the triangles.
-     * If you do the substraction of [[displPlus]] and [[displMinus]], you should retrieve [[displ]]
-     * @param {boolean} local Local or global coordinate system
-     * @param {boolean} atTriangles Compute at triangle center, at vertices otherwise
-     * @param {number} delta A small value (epsilon)
+     * If you do the substraction of {@link displPlus} and {@link displMinus}, you should retrieve {@link displ}
+     * @param {boolean} local Local or global coordinate system (default true)
+     * @param {boolean} atTriangles Compute at triangle center, at vertices otherwise (default true)
+     * @param {number} delta A small value call epsilon (default 1e-7)
      * @returns {FlatVectors} A flat vector
-     * @see [[displMinus]]
-     * @see [[Solution.burgersPlus]]
+     * @see {@link displMinus}
+     * @see {@link Solution.burgersPlus}
      */
-    displPlus(local: boolean=true, atTriangles: boolean=true, delta: number=1e-7): FlatVectors {return }
+    displPlus(local: boolean, atTriangles: boolean, delta: number): FlatVectors
 
     /**
      * @brief Get the computed displacement discontinuity on the negative side of the triangles.
-     * If you do the substraction of [[displPlus]] and [[displMinus]], you should retrieve [[displ]]
-     * @param {boolean} local Local or global coordinate system.
-     * @param {boolean} atTriangles Compute at triangle center, at vertices otherwise
-     * @param {number} delta A small value (epsilon)
+     * If you do the substraction of {@link displPlus} and {@link displMinus}, you should retrieve {@link displ}
+     * @param {boolean} local Local or global coordinate system (default true)
+     * @param {boolean} atTriangles Compute at triangle center, at vertices otherwise (default true)
+     * @param {number} delta A small value called epsilon (default 1e-7)
      * @returns {FlatVectors} A flat vector
-     * @see [[displPlus]]
-     * @see [[Solution.burgersMinus]]
+     * @see {@link displPlus}
+     * @see {@link Solution.burgersMinus}
      */
-    displMinus(local: boolean=true, atTriangles: boolean=true, delta: number=1e-7): FlatVectors {return }
+    displMinus(local: boolean, atTriangles: boolean, delta: number): FlatVectors
 
     /**
      * Get the slip vectors as a flat array at vertices (interpolate)
@@ -223,21 +224,46 @@ export class Surface {
      * Set the slip vectors defined at vertices (interpolate)
      * @param burgers 
      */
-    setDisplFromVertices(burgers: number[]): void {}
+    setDisplFromVertices(burgers: number[]): void
 
     /**
      * Set the slip vectors defined at triangles (no interpolation)
      * @param burgers 
      */
-    setDisplFromTriangles(burgers: number[]): void {}
+    setDisplFromTriangles(burgers: number[]): void
 
     /**
      * @brief Add a pre-defined or a user-defined constraint to this surface
      * @param c The constraint
      * @default None There's no constraint
-     * @see [[Constraint]]
+     * @see {@link Constraint}
      */
-    addConstraint(c: Constraint): void {return }
+    addConstraint(c: Constraint): void
+
+    /**
+     * Iterate over all {@link Triangle} making this {@link Surface}.
+     * 
+     * Example:
+     * ```js
+     * surface.forEachTriangle( t => {
+     *      console.log('area', t->area())
+     *      console.log('displ', t->displ())
+     * })
+     * ```
+     */
+    forEachTriangle(cb: (t: Triangle, i: number) => void): void
+
+    /**
+     * Iterate over all vertices making this {@link Surface}.
+     * 
+     * Example:
+     * ```js
+     * surface.forEachVertex( v => {
+     *      console.log(`vertex index ${v.index} has position ${v.position}`)
+     * })
+     * ```
+     */
+    forEachVertex(cb: (v: { position: number[], index: number }, i: number) => void): void
 
     /**
      * @brief Get the triangle's normal at index i
@@ -247,7 +273,7 @@ export class Surface {
      * const n = surface.normal(3)
      * console.log(`Normal of triangle index 3 is ${n}`)
      * ```
-     */    
+     */
     // normal(i: number): Vector {return }
 
     /**
@@ -259,6 +285,6 @@ export class Surface {
      *   console.log(`Center of triangle index ${i} is ${surface.center(i)}`)
      * }
      * ```
-     */    
+     */
     // center(i: number): Vector {return }
 }
