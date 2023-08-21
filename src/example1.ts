@@ -19,9 +19,9 @@
  *      .fill([0,0,0])
  *      .map( v => [Math.random(), Math.random(), 0])    // generate 100 random points
  *      .map( p => solution.stressAt(p[0], p[1], p[2]))  // compute the stress
- *      .map (s => console.log(s))                       // display ths stress
+ *      .map( s => console.log(s))                       // display ths stress
  * ```
  * ---
  */
-export namespace Example_simple_1 {} 
+export namespace Example_simple_1 { }
 
