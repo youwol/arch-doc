@@ -11,6 +11,16 @@ import { Triangle } from './triangle'
  */
 export class Model {
     /**
+     * @brief Set the model model convention to be used by the model.
+     * By default the convention is `Okada`. You can change it to `Poly3D` by
+     * passing true to this method. If the argument is false, then the `Okada`
+     * convention will be used.
+     * @default false (i.e., "Okada")
+     * @see {@link Conventions}
+     */
+    // setPoly3DConvention(b: boolean): void
+
+    /**
      * @brief Set the model to in half-space or whole-space. By default the model is
      * in whole-space.
      * An explanation of whole-space versus half-space is given by the following figure
