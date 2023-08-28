@@ -7,7 +7,8 @@
   "main": "dist/@youwol/arch-doc.js",
   "types": "src/index.ts",
   "scripts": {
-    "doc": "typedoc src/ --excludePrivate --disableSources -name 'Arch js library API' --media ./media --out dist/docs --includeVersion --hideGenerator"
+    "doc": "typedoc src/ --excludePrivate --disableSources -name 'Arch js library API' --media ./media --out dist/docs --includeVersion --hideGenerator",
+    "build": "typedoc src/ --excludePrivate --disableSources -name 'Arch js library API' --media ./media --out dist/docs --includeVersion --hideGenerator"
   },
   "devDependencies": {
     "ts-jest": "26.5.4",
